@@ -1,5 +1,10 @@
 #include <stack>
 #include <iostream>
+#include <condition_variable>
+#include <mutex>
+#include <thread>
+#include <unistd.h>
+#include <stdlib.h>
 
 class SortedStack {
 public:
@@ -51,9 +56,10 @@ int main() {
     s.push(1);
     s.pop();
     s.isEmpty();
-    // s.push(1);
-    // s.push(2);
-    // std::cout << s.peek() << std::endl;
-    // s.pop();
-    // std::cout << s.peek() << std::endl;
+    s.push(1);
+    s.push(2);
+    std::cout << s.peek() << std::endl;
+    s.pop();
+    std::cout << s.peek() << std::endl;
 }
+
