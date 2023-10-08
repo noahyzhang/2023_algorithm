@@ -36,10 +36,38 @@ public:
     }
 };
 
+// 空间压缩
+class Solution2 {
+public:
+    int get_min_path_sum(const std::vector<std::vector<int>>& grid) {
+        if (grid.empty()) {
+            return 0;
+        }
+        int more = std::max(grid.size(), grid[0].size());
+        int less = std::min(grid.size(), grid[0].size());
+        bool row_more = more == grid.size();
+        std::vector<int> arr(less, 0);
+        arr[0] = grid[0][0];
+        for (int i = 1; i < less; i++) {
+            arr[i] = arr[i-1] + (row_more ? grid[0][i] : grid[i][0]);
+        }
+        for (int i = 1; i < more; i++) {
+            arr[0] = arr[0] + (row_more ? grid[i][0] : grid[0][i]);
+            for (int j = 1; j < less; j++) {
+                arr[j] = std::min(arr[j-1], arr[j]) + (row_more ? grid[i][j] : grid[j][i]);
+            }
+        }
+        return arr[less-1];
+    }
+};
+
 int main() {
     Solution s;
     std::vector<std::vector<int>> grid{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}};
     auto res = s.minPathSum(grid);
     std::cout << res << std::endl;
+    Solution2 s2;
+    auto res2 = s2.get_min_path_sum(grid);
+    std::cout << res2 << std::endl;
     return 0;
 }

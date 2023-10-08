@@ -24,6 +24,33 @@ public:
     }
 };
 
+// 部分链表反转
+class Solution2 {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if (head == nullptr) {
+            return nullptr;
+        }
+        ListNode* dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode* prev = dummy;
+        for (int i = 0; i < left-1; i++) {
+            prev = prev->next;
+        }
+        ListNode* curr = prev->next;
+        ListNode* next = nullptr;
+        for (int i = 0; i < right-left; i++) {
+            next = curr->next;
+            curr->next = next->next;
+            next->next = prev->next;
+            prev->next = next;
+        }
+        ListNode* res = dummy->next;
+        delete dummy;
+        return res;
+    }
+};
+
 void print_list(ListNode* node) {
     for (; node != nullptr; node = node->next) {
         std::cout << node->val << " ";
@@ -44,8 +71,10 @@ ListNode* gen_list(const std::vector<int> vec) {
 int main() {
     ListNode* root = gen_list({1, 2, 3, 4, 5, 6, 7});
     print_list(root);
-    Solution s;
-    ListNode* res = s.reverseList(root);
+    // Solution s;
+    // ListNode* res = s.reverseList(root);
+    Solution2 s2;
+    ListNode* res = s2.reverseBetween(root, 2, 4);
     print_list(res);
     return 0;
 }
